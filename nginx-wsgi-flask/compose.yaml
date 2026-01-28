@@ -8,14 +8,12 @@ services:
       - flask-app
     networks:
       - dokploy-network
-    command: /app/start.sh
 
   flask-app:
     build: ./flask
     restart: always
     networks:
       - dokploy-network
-    command: gunicorn -w 3 -t 60 -b 0.0.0.0:8000 app:app
 
 networks:
   dokploy-network:
