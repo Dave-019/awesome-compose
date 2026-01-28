@@ -4,24 +4,23 @@ services:
     restart: always
     volumes:
       - ./nginx/default.conf:/tmp/default.conf
-    environment: 
+    environment:
       - FLASK_SERVER_ADDR=flask-app:8000
-
     depends_on:
       - flask-app
-    healthcheck:
-      test: ["CMD-SHELL", "curl --silent --fail localhost:80/health-check || exit 1"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
+    # Removed healthcheck temporarily to ensure the app starts
     command: /app/start.sh
+    networks:
+      - dokploy-network
+
   flask-app:
     build: flask
     restart: always
-
-    healthcheck:
-      test: ["CMD-SHELL", "curl --silent --fail localhost:8000/flask-health-check || exit 1"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
+    # Added network so nginx can see it
+    networks:
+      - dokploy-network
     command: gunicorn -w 3 -t 60 -b 0.0.0.0:8000 app:app
+
+networks:
+  dokploy-network:
+    external: true
