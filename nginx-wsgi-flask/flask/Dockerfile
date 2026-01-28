@@ -5,7 +5,13 @@ RUN pip install --upgrade pip
 
 # get curl for healthchecks
 RUN apk add curl
+FROM nginx:1.19.7-alpine
+RUN apk add bash
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY start.sh /app/start.sh
 
+# ADD THIS LINE:
+COPY default.conf /tmp/default.conf
 # permissions and nonroot user for tightened security
 RUN adduser -D nonroot
 RUN mkdir /home/app/ && chown -R nonroot:nonroot /home/app
