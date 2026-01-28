@@ -12,6 +12,8 @@ COPY start.sh /app/start.sh
 
 # ADD THIS LINE:
 COPY default.conf /tmp/default.conf
+
+WORKDIR /app
 # permissions and nonroot user for tightened security
 RUN adduser -D nonroot
 RUN mkdir /home/app/ && chown -R nonroot:nonroot /home/app
