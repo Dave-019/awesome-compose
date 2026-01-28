@@ -15,7 +15,6 @@ services:
     restart: always
     networks:
       - dokploy-network
-    # We use 0.0.0.0 so it listens on the docker network
     command: gunicorn -w 3 -t 60 -b 0.0.0.0:8000 app:app
 
 networks:
